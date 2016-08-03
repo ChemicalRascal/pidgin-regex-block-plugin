@@ -53,17 +53,16 @@ sub pattern_match_chat_msg_cb {
 
     Purple::Debug::info($pluginName, "pattern callback: Value for $regexToMatch_pref = $searchPattern.\n");
     if ($searchPattern eq "") {
-        return;
+        return 0;
     }
     if ($message =~ /$searchPattern/) {
-        # notify
-        Purple::Debug::info($pluginName, "pattern callback: matched message: $message\n");
-
-        #Purple::Notify::message(undef, 2, "Pattern match", "from $sender, data =  $data, to $account, conv = $conv, flag = $flag, pattern matched: $searchPattern", "$message", undef, undef);
-        Purple::Notify::message(undef, 2, "Pattern match", "from $sender, data =  $data, pattern matched: $searchPattern", "$message", undef, undef);
+        # cancel the message
+        Purple::Debug::info($pluginName, "pattern callback: matched message: \"$message\"\n");
+        return 1;
     } else {
-        Purple::Debug::info($pluginName, "pattern callback: message does not match: $message...\n");
+        Purple::Debug::info($pluginName, "pattern callback: message does not match: \"$message\"\n");
     }
+    return 0;
 }
 
 sub plugin_init {
@@ -95,17 +94,17 @@ sub plugin_load {
     my $conversation = Purple::Conversations::get_handle();
     Purple::Signal::connect(
         $conversation,
-        "received-chat-msg",
+        "receiving-chat-msg",
         $plugin,
         \&pattern_match_chat_msg_cb,
-        "received chat message");
+        "receiving chat message");
 
     Purple::Signal::connect(
         $conversation,
-        "received-im-msg",
+        "receiving-im-msg",
         $plugin,
         \&pattern_match_chat_msg_cb,
-        "received IM message");
+        "receiving IM message");
 }
 
 sub plugin_unload {

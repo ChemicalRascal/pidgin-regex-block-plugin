@@ -16,8 +16,8 @@
 
 use Purple;
 
-my $pluginName = "Notify Message Match Plugin";
-my $pluginShortName = "pattern_match_notifier";
+my $pluginName = "Block Message Match Plugin";
+my $pluginShortName = "pattern_match_blocker";
 my $main_pref = "/plugins/core/$pluginShortName";
 my $regexToMatch_pref = "$main_pref/pattern";
 
@@ -29,8 +29,8 @@ sub pattern_match_chat_msg_cb;
     name => $pluginName,
     version => "0.1",
     summary => "Notify if a message matches the given regex pattern.",
-    description => "Notify if a message matches the given regex pattern.  Can be used to notify you if a person mentions your user name in a chat.  Can also be used for notifying you when your alias is mentioned.  For example, in HipChat, your user name is this cryptic sequence of numbers that no-one ever uses.  Instead, people use your nickname prefixed by an '@'.  This plugin can be used to notify you when this string is mentioned in chat.",
-    author => "Katriana",
+    description => "Block messages that matche the given regex pattern.  Can be used to block known messages used to trigger bots, or their output if that output is well-formed.",
+    author => "ChemicalRascal",
     url => "http://pidgin.im",
     load => "plugin_load",
     unload => "plugin_unload",
